@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1: Tasks for sm1248</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for sm1248</h1>
+
+<p>Your personal task is to develop a system for apartments and their tenants.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Classes [13 marks]</h2>
+
+<p>Create class <code>co2123.hw1.domain.Tenant</code>. With the following private fields:
+<ol>
+  <li><code>String name</code></li>
+  <li><code>String department</code></li>
+  <li><code>String role</code></li>
+  <li><code>int contract</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create class <code>co2123.hw1.domain.Apartment</code>. With the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String address</code></li>
+  <li><code>String type</code></li>
+  <li><code>List&lt;Tenant&gt; tenants</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2123.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Apartment&gt; apartments</code> in class <code>co2123.hw1.Hw1Application</code>. Initialize the list inside class <code>co2123.hw1.Hw1Application</code> to contain one apartment with two tenants. [4 marks]</p>
+
+<p>Create controller <code>co2123.hw1.controller.ApartmentController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/apartments"</code> should show view <code>apartments/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all apartments from <code>co2123.hw1.Hw1Application</code> to the model as attribute <code>apartments</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the address and type of each apartment followed by a link to URL <code>"/tenants?apartment={id of apartment}"</code>, e.g., <code>"/tenants?apartment=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newApartment"</code> should show view <code>apartments/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="apartment"</code> and <code>action="/addApartment"</code> and inputs for all fields of class <code>Apartment</code> except for <code>tenants</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addApartment"</code> should add a new apartment to the list of all apartments in <code>co2123.hw1.Hw1Application</code> and redirect to <code>/apartments</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller <code>co2123.hw1.controller.TenantController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/tenants"</code> should show view <code>tenants/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>apartment</code> determine the corresponding apartment from <code>co2123.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all tenants of that apartment to the model as attribute <code>tenants</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the name, department, role, and contract of each tenant. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newTenant?apartment={id of apartment whose tenants are listed}"</code>, e.g., <code>"/newTenant?apartment=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newTenant"</code> should show view <code>tenants/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="tenant"</code> and <code>action="/addTenant"</code> and inputs for all fields of class <code>Tenant</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>apartment</code> with the ID of the current apartment. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addTenant"</code> should add a new tenant to the list of tenants of the apartment identified by request parameter <code>apartment</code> and then redirect to <code>/apartments</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Apartment</code> and make it available in controller <code>ApartmentController</code>. [4 marks]</p>
+<p>When adding a new apartment validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.apartments</code>. [3 marks]</li>
+    <li>The value of field <code>address</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>type</code> is not empty. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Tenant</code> and make it available in controller <code>TenantController</code>. [4 marks]</p>
+<p>When adding a new tenant validate that
+  <ol>
+    <li>The value of field <code>name</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>department</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>role</code> is either <code>"Undergraduate"</code>, <code>"Postgraduate"</code>, or <code>"Staff"</code>. [3 marks]</li>
+    <li>The value of field <code>contract</code> is between (including) 21 and 42. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
